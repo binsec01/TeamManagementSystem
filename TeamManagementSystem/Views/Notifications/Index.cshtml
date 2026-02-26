@@ -1,0 +1,26 @@
+@model IEnumerable<TeamManagementSystem.Web.Models.Notification>
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<h2>Notifications</h2>
+<form asp-action="MarkAllRead" method="post" class="mb-2">
+    <button type="submit" class="btn btn-sm btn-secondary">Mark all as read</button>
+</form>
+<ul class="list-group">
+    @foreach (var n in Model)
+    {
+        <li class="list-group-item @(n.IsRead ? "" : "list-group-item-primary")">
+            @if (!n.IsRead)
+            {
+                <form asp-action="MarkRead" method="post" class="d-inline">
+                    <input type="hidden" name="id" value="@n.Id" />
+                    <button type="submit" class="btn btn-sm btn-outline-secondary float-end">Mark read</button>
+                </form>
+            }
+            <a href="@(n.Url ?? "#")">@n.Message</a>
+            <br /><small class="text-muted">@n.CreatedAtUtc.ToLocalTime().ToString("g") — @n.Type</small>
+        </li>
+    }
+</ul>
+@if (!Model.Any()) { <p class="text-muted">No notifications.</p> }

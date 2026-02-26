@@ -1,0 +1,22 @@
+@model ActivityReportVm
+@{
+    ViewData["Title"] = "Activity report";
+}
+
+<h2>Activity report — @Model.OrganizationName</h2>
+<table class="table table-sm">
+    <thead><tr><th>When</th><th>User</th><th>Entity</th><th>Action</th><th>Details</th></tr></thead>
+    <tbody>
+        @foreach (var a in Model.Activities)
+        {
+            <tr>
+                <td>@a.CreatedAtUtc.ToLocalTime().ToString("g")</td>
+                <td>@(a.ActorName ?? a.ActorUserId)</td>
+                <td>@a.EntityType #@a.EntityId</td>
+                <td>@a.Action</td>
+                <td class="small text-muted">@a.DetailsJson</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to reports</a>

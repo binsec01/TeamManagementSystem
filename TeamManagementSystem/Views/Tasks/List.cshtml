@@ -1,0 +1,51 @@
+@model TaskListVm
+@{
+    ViewData["Title"] = "Tasks — " + Model.ProjectName;
+    var projectId = (int)ViewData["ProjectId"]!;
+    var canManage = (bool)ViewData["CanManage"]!;
+    var teamMembers = ViewData["TeamMembers"] as IEnumerable<TeamManagementSystem.Web.Models.Identity.ApplicationUser> ?? Enumerable.Empty<TeamManagementSystem.Web.Models.Identity.ApplicationUser>();
+}
+
+<h2>Tasks — @Model.ProjectName</h2>
+<p>
+    <a asp-action="Board" asp-route-projectId="@projectId">Board view</a>
+    @if (canManage) { <text> | </text> <a asp-action="Create" asp-route-projectId="@projectId" class="btn btn-sm btn-primary">Add task</a> }
+</p>
+
+<form method="get" asp-action="List" asp-route-projectId="@projectId" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="status" class="form-select form-select-sm">
+            <option value="">All statuses</option>
+            @foreach (var s in Enum.GetValues<TeamManagementSystem.Web.Models.TaskStatus>())
+            { <option value="@s" selected="@(Model.FilterStatus == s.ToString())">@s</option> }
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="assigneeId" class="form-select form-select-sm">
+            <option value="">All assignees</option>
+            @foreach (var u in teamMembers)
+            { <option value="@u.Id" selected="@(Model.FilterAssigneeId == u.Id)">@(u.FullName ?? u.Email)</option> }
+        </select>
+    </div>
+    <div class="col-auto"><input name="search" class="form-control form-control-sm" placeholder="Search" value="@Model.Search" /></div>
+    <div class="col-auto"><button type="submit" class="btn btn-sm btn-secondary">Filter</button></div>
+</form>
+
+<table class="table table-sm">
+    <thead><tr><th>Title</th><th>Status</th><th>Priority</th><th>Due</th><th>Assignee</th><th>Tags</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var t in Model.Tasks)
+        {
+            <tr>
+                <td>@t.Title</td>
+                <td>@t.Status</td>
+                <td>@t.Priority</td>
+                <td>@(t.DueDateUtc?.ToLocalTime().ToString("d"))</td>
+                <td>@t.AssigneeName</td>
+                <td>@string.Join(", ", t.TagNames)</td>
+                <td><a asp-action="Details" asp-route-id="@t.Id">View</a> @if (canManage) { <text>|</text> <a asp-action="Edit" asp-route-id="@t.Id">Edit</a> }</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-controller="Projects" asp-action="Details" asp-route-id="@projectId">Back to project</a>

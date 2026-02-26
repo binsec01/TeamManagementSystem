@@ -1,0 +1,31 @@
+@model OrganizationDetailsVm
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h2>@Model.Name</h2>
+<p>Your role: <strong>@Model.CurrentUserRole</strong></p>
+<p>
+    <a asp-controller="Teams" asp-action="Create" asp-route-organizationId="@Model.Id" class="btn btn-primary">Add team</a>
+    <a asp-controller="Reports" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-outline-secondary">Reports</a>
+</p>
+
+<h3>Teams</h3>
+<table class="table">
+    <thead><tr><th>Name</th><th>Projects</th><th>Members</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var t in Model.Teams)
+        {
+            <tr>
+                <td>@t.Name</td>
+                <td>@t.ProjectCount</td>
+                <td>@t.MemberCount</td>
+                <td>
+                    <a asp-controller="Teams" asp-action="Details" asp-route-id="@t.Id">View</a> |
+                    <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@t.Id">Projects</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index">Back to organizations</a>

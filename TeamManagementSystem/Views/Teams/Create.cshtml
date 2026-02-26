@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Create team";
+    var orgId = (int)ViewData["OrganizationId"]!;
+}
+
+<h2>Create team</h2>
+<form asp-action="Create" asp-route-organizationId="@orgId" method="post">
+    <div class="form-floating mb-2">
+        <input name="name" class="form-control" placeholder="Team name" required />
+        <label>Team name</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" asp-route-organizationId="@orgId" class="btn btn-secondary">Cancel</a>
+</form>

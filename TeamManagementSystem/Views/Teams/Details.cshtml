@@ -1,0 +1,18 @@
+@model TeamManagementSystem.Web.Models.Team
+@{
+    ViewData["Title"] = Model.Name;
+    var canManage = (bool)ViewData["CanManage"]!;
+}
+
+<h2>@Model.Name</h2>
+<p>Organization: <a asp-controller="Organizations" asp-action="Details" asp-route-id="@Model.OrganizationId">@Model.Organization?.Name</a></p>
+<p><a asp-controller="Projects" asp-action="Index" asp-route-teamId="@Model.Id">View projects</a> | @if (canManage) { <a asp-controller="Projects" asp-action="Create" asp-route-teamId="@Model.Id" class="btn btn-sm btn-primary">Add project</a> }</p>
+
+<h3>Members</h3>
+<ul>
+    @foreach (var m in Model.Members ?? Array.Empty<TeamManagementSystem.Web.Models.TeamMembership>())
+    {
+        <li>@(m.User?.FullName ?? m.User?.Email ?? m.UserId)</li>
+    }
+</ul>
+<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to teams</a>

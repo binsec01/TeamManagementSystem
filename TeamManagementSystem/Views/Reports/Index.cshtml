@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "Reports";
+    var orgId = (int)ViewData["OrganizationId"]!;
+    var orgName = ViewData["OrganizationName"] as string ?? "";
+}
+
+<h2>Reports — @orgName</h2>
+<ul>
+    <li><a asp-action="ProjectProgress" asp-route-organizationId="@orgId">Project progress summary</a></li>
+    <li><a asp-action="TeamWorkload" asp-route-organizationId="@orgId">Team workload report</a></li>
+    <li><a asp-action="Activity" asp-route-organizationId="@orgId">Activity report</a></li>
+</ul>
+<a asp-controller="Organizations" asp-action="Details" asp-route-id="@orgId">Back to organization</a>

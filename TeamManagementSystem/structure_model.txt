@@ -1,0 +1,114 @@
+TeamManagementSystem/
+│  TeamManagementSystem.sln
+└─ TeamManagementSystem.Web/
+   │  TeamManagementSystem.Web.csproj
+   │  Program.cs
+   │  appsettings.json
+   │  appsettings.Development.json
+   │
+   ├─ Properties/
+   │   └─ launchSettings.json
+   │
+   ├─ Data/
+   │   ├─ AppDbContext.cs
+   │   ├─ DbInitializer.cs
+   │   └─ Seed/
+   │      └─ SeedData.cs
+   │
+   ├─ Models/
+   │   ├─ Identity/
+   │   │  ├─ ApplicationUser.cs
+   │   │  └─ ApplicationRole.cs
+   │   │
+   │   ├─ Organization.cs
+   │   ├─ WorkspaceMembership.cs
+   │   ├─ Team.cs
+   │   ├─ TeamMembership.cs
+   │   ├─ Project.cs
+   │   ├─ TaskItem.cs
+   │   ├─ TaskComment.cs
+   │   ├─ TaskAttachment.cs
+   │   ├─ Notification.cs
+   │   ├─ ActivityLog.cs
+   │   ├─ Tag.cs
+   │   └─ TaskTag.cs
+   │
+   ├─ ViewModels/
+   │   ├─ Account/
+   │   │  ├─ LoginVm.cs
+   │   │  └─ RegisterVm.cs
+   │   ├─ Organizations/
+   │   │  ├─ OrganizationCreateVm.cs
+   │   │  └─ OrganizationDetailsVm.cs
+   │   ├─ Projects/
+   │   │  ├─ ProjectCreateVm.cs
+   │   │  └─ ProjectDetailsVm.cs
+   │   ├─ Tasks/
+   │   │  ├─ TaskCreateVm.cs
+   │   │  ├─ TaskEditVm.cs
+   │   │  ├─ TaskBoardVm.cs
+   │   │  └─ TaskListVm.cs
+   │   └─ Reports/
+   │      ├─ ProjectProgressReportVm.cs
+   │      ├─ TeamWorkloadReportVm.cs
+   │      └─ ActivityReportVm.cs
+   │
+   ├─ Controllers/
+   │   ├─ HomeController.cs
+   │   ├─ AccountController.cs
+   │   ├─ OrganizationsController.cs
+   │   ├─ TeamsController.cs
+   │   ├─ ProjectsController.cs
+   │   ├─ TasksController.cs
+   │   ├─ CommentsController.cs
+   │   ├─ AttachmentsController.cs
+   │   ├─ NotificationsController.cs
+   │   └─ ReportsController.cs
+   │
+   ├─ Services/
+   │   ├─ Interfaces/
+   │   │  ├─ IAuthorizationServiceEx.cs
+   │   │  ├─ INotificationService.cs
+   │   │  ├─ IActivityService.cs
+   │   │  ├─ IFileStorageService.cs
+   │   │  └─ ITaskQueryService.cs
+   │   ├─ AuthorizationServiceEx.cs
+   │   ├─ NotificationService.cs
+   │   ├─ ActivityService.cs
+   │   ├─ FileStorageService.cs
+   │   └─ TaskQueryService.cs
+   │
+   ├─ Policies/
+   │   ├─ PermissionConstants.cs
+   │   └─ PermissionHandler.cs
+   │
+   ├─ Middleware/
+   │   └─ AuditMiddleware.cs
+   │
+   ├─ Migrations/
+   │   └─ (EF migrations here)
+   │
+   ├─ Views/
+   │   ├─ Shared/
+   │   │  ├─ _Layout.cshtml
+   │   │  ├─ _ValidationScriptsPartial.cshtml
+   │   │  ├─ _LoginPartial.cshtml
+   │   │  └─ Error.cshtml
+   │   ├─ Home/
+   │   │  └─ Index.cshtml
+   │   ├─ Account/
+   │   │  ├─ Login.cshtml
+   │   │  └─ Register.cshtml
+   │   ├─ Organizations/
+   │   ├─ Teams/
+   │   ├─ Projects/
+   │   ├─ Tasks/
+   │   ├─ Notifications/
+   │   └─ Reports/
+   │
+   ├─ wwwroot/
+   │   ├─ css/
+   │   ├─ js/
+   │   ├─ lib/
+   │   └─ uploads/              (for using local storage)
+   │

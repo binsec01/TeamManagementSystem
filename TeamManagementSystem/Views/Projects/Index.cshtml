@@ -1,0 +1,31 @@
+@model IEnumerable<TeamManagementSystem.Web.Models.Project>
+@{
+    ViewData["Title"] = "Projects";
+    var teamId = (int)ViewData["TeamId"]!;
+    var teamName = ViewData["TeamName"] as string ?? "";
+    var orgId = ViewData["OrganizationId"];
+    var canManage = (bool)ViewData["CanManage"]!;
+}
+
+<h2>Projects — @teamName</h2>
+@if (canManage) { <p><a asp-action="Create" asp-route-teamId="@teamId" class="btn btn-primary">Add project</a></p> }
+
+<table class="table">
+    <thead><tr><th>Name</th><th>Tasks</th><th>Due</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@(p.Tasks?.Count ?? 0)</td>
+                <td>@(p.DueDateUtc?.ToLocalTime().ToString("d"))</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@p.Id">View</a> |
+                    <a asp-controller="Tasks" asp-action="List" asp-route-projectId="@p.Id">List</a> |
+                    <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@p.Id">Board</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-controller="Teams" asp-action="Details" asp-route-id="@teamId">Back to team</a>

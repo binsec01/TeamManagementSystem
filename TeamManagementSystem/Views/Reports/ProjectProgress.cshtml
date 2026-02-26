@@ -1,0 +1,23 @@
+@model ProjectProgressReportVm
+@{
+    ViewData["Title"] = "Project progress";
+}
+
+<h2>Project progress — @Model.OrganizationName</h2>
+<table class="table">
+    <thead><tr><th>Project</th><th>Team</th><th>Open</th><th>Completed</th><th>Overdue</th><th>Total</th></tr></thead>
+    <tbody>
+        @foreach (var p in Model.Projects)
+        {
+            <tr>
+                <td>@p.ProjectName</td>
+                <td>@p.TeamName</td>
+                <td>@p.OpenTasks</td>
+                <td>@p.CompletedTasks</td>
+                <td>@p.OverdueTasks</td>
+                <td>@p.TotalTasks</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to reports</a>

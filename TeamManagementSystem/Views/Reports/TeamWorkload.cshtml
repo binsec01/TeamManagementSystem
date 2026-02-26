@@ -1,0 +1,24 @@
+@model TeamWorkloadReportVm
+@{
+    ViewData["Title"] = "Team workload";
+}
+
+<h2>Team workload — @Model.OrganizationName</h2>
+<table class="table">
+    <thead><tr><th>Member</th><th>Email</th><th>Total</th><th>Open</th><th>In progress</th><th>Completed</th><th>Overdue</th></tr></thead>
+    <tbody>
+        @foreach (var m in Model.Members)
+        {
+            <tr>
+                <td>@m.FullName</td>
+                <td>@m.Email</td>
+                <td>@m.TotalTasks</td>
+                <td>@m.OpenTasks</td>
+                <td>@m.InProgressTasks</td>
+                <td>@m.CompletedTasks</td>
+                <td>@m.OverdueTasks</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to reports</a>

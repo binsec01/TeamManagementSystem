@@ -1,0 +1,47 @@
+@model TeamManagementSystem.Web.Models.TaskItem
+@{
+    ViewData["Title"] = Model.Title;
+    var canManage = (bool)ViewData["CanManage"]!;
+    var teamMembers = ViewData["TeamMembers"] as IEnumerable<TeamManagementSystem.Web.Models.Identity.ApplicationUser> ?? Enumerable.Empty<TeamManagementSystem.Web.Models.Identity.ApplicationUser>();
+}
+
+<h2>@Model.Title</h2>
+<p>Project: <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId">@Model.Project?.Name</a></p>
+<p><strong>Status:</strong> @Model.Status | <strong>Priority:</strong> @Model.Priority | <strong>Due:</strong> @(Model.DueDateUtc?.ToLocalTime().ToString("d"))</p>
+<p><strong>Assignee:</strong> @(Model.Assignee?.FullName ?? Model.Assignee?.Email ?? "—")</p>
+@if (!string.IsNullOrEmpty(Model.Description)) { <div class="mb-3">@Model.Description</div> }
+<p>Tags: @string.Join(", ", (Model.TaskTags ?? new List<TeamManagementSystem.Web.Models.TaskTag>()).Select(tt => tt.Tag?.Name).Where(n => n != null)!)</p>
+
+@if (canManage) { <p><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit task</a></p> }
+
+<h4>Comments</h4>
+@foreach (var c in Model.Comments ?? Array.Empty<TeamManagementSystem.Web.Models.TaskComment>())
+{
+    <div class="border rounded p-2 mb-2">
+        <strong>@(c.Author?.FullName ?? c.Author?.Email)</strong> — @c.CreatedAtUtc.ToLocalTime().ToString("g")<br />
+        @c.Body
+    </div>
+}
+<form asp-controller="Comments" asp-action="Create" method="post" class="mb-3">
+    <input type="hidden" name="taskId" value="@Model.Id" />
+    <div class="mb-2">
+        <label class="form-label">Add comment</label>
+        <textarea name="body" class="form-control" rows="2" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">Post</button>
+</form>
+
+<h4>Attachments</h4>
+<ul>
+    @foreach (var a in Model.Attachments ?? Array.Empty<TeamManagementSystem.Web.Models.TaskAttachment>())
+    {
+        <li><a asp-controller="Attachments" asp-action="Download" asp-route-id="@a.Id">@a.OriginalFileName</a></li>
+    }
+</ul>
+<form asp-controller="Attachments" asp-action="Upload" method="post" enctype="multipart/form-data" class="mb-3">
+    <input type="hidden" name="taskId" value="@Model.Id" />
+    <input type="file" name="file" class="form-control form-control-sm d-inline-block w-auto" />
+    <button type="submit" class="btn btn-sm btn-secondary">Upload</button>
+</form>
+
+<a asp-action="List" asp-route-projectId="@Model.ProjectId">Back to task list</a>

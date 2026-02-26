@@ -1,0 +1,46 @@
+@model TaskCreateVm
+@{
+    ViewData["Title"] = "Create task";
+    var teamMembers = ViewData["TeamMembers"] as IEnumerable<TeamManagementSystem.Web.Models.Identity.ApplicationUser> ?? Enumerable.Empty<TeamManagementSystem.Web.Models.Identity.ApplicationUser>();
+}
+
+<h2>Create task</h2>
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="ProjectId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-floating mb-2">
+        <input asp-for="Title" class="form-control" />
+        <label asp-for="Title"></label>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-2">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-floating mb-2">
+            <select asp-for="Priority" class="form-select" asp-items="Html.GetEnumSelectList<TeamManagementSystem.Web.Models.TaskPriority>()"></select>
+            <label asp-for="Priority"></label>
+        </div>
+        <div class="col-md-6 form-floating mb-2">
+            <input asp-for="DueDateUtc" class="form-control" type="date" />
+            <label asp-for="DueDateUtc"></label>
+        </div>
+    </div>
+    <div class="mb-2">
+        <label asp-for="AssigneeId" class="form-label"></label>
+        <select asp-for="AssigneeId" class="form-select">
+            <option value="">— Unassigned —</option>
+            @foreach (var u in teamMembers)
+            { <option value="@u.Id">@(u.FullName ?? u.Email)</option> }
+        </select>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="TagNames" class="form-control" placeholder="bug, urgent" />
+        <label asp-for="TagNames"></label>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="List" asp-route-projectId="@Model.ProjectId" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

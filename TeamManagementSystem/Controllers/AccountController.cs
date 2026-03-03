@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TeamManagementSystem.Web.Data;
 using TeamManagementSystem.Web.Models.Identity;
+using TeamManagementSystem.Web.Services.Interfaces;
 using TeamManagementSystem.Web.ViewModels.Account;
 
 namespace TeamManagementSystem.Web.Controllers;
@@ -11,15 +14,21 @@ public class AccountController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<AccountController> _logger;
+    private readonly AppDbContext _db;
+    private readonly IAuthorizationServiceEx _authEx;
 
     public AccountController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        ILogger<AccountController> logger)
+        ILogger<AccountController> logger,
+        AppDbContext db,
+        IAuthorizationServiceEx authEx)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _logger = logger;
+        _db = db;
+        _authEx = authEx;
     }
 
     [HttpGet]
@@ -43,6 +52,11 @@ public class AccountController : Controller
         if (result.Succeeded)
         {
             _logger.LogInformation("User logged in: {Email}", model.Email);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == model.Email, cancellationToken);
+            if (user != null)
+            {
+                return await RedirectAfterSignInAsync(user, returnUrl, cancellationToken);
+            }
             return LocalRedirect(returnUrl);
         }
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -72,7 +86,7 @@ public class AccountController : Controller
         {
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User registered: {Email}", model.Email);
-            return LocalRedirect(returnUrl);
+            return await RedirectAfterSignInAsync(user, returnUrl, cancellationToken);
         }
         foreach (var error in result.Errors)
             ModelState.AddModelError(string.Empty, error.Description);
@@ -90,4 +104,15 @@ public class AccountController : Controller
 
     [HttpGet]
     public IActionResult AccessDenied() => View();
+
+    private async Task<IActionResult> RedirectAfterSignInAsync(ApplicationUser user, string? returnUrl, CancellationToken cancellationToken)
+    {
+        var hasMemberships = await _db.WorkspaceMemberships.AnyAsync(w => w.UserId == user.Id, cancellationToken);
+        if (!hasMemberships)
+        {
+            return RedirectToAction("Index", "Onboarding");
+        }
+
+        return RedirectToAction("Index", "Organizations");
+    }
 }

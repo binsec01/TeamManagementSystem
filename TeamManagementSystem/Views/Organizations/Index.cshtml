@@ -4,19 +4,19 @@
 }
 
 <h2>My Organizations</h2>
-<p><a asp-action="Create" class="btn btn-primary">Create organization</a></p>
+<p><a asp-controller="Onboarding" asp-action="Index" class="btn btn-primary">Set up your workspace</a></p>
 
 <table class="table">
     <thead>
-        <tr><th>Name</th><th>Your role</th><th></th></tr>
+        <tr><th>Name</th><th>Roles</th><th></th></tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
                 <td>@item.Organization.Name</td>
-                <td>@item.Role</td>
-                <td><a asp-action="Details" asp-route-id="@item.Organization.Id">View</a> | <a asp-controller="Teams" asp-action="Index" asp-route-organizationId="@item.Organization.Id">Teams</a></td>
+                <td>@item.Role.ToString()</td>
+                <td><a asp-action="Details" asp-route-id="@item.Organization.Id">View</a> | <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@item.Organization.Id">View Members</a></td>
             </tr>
         }
     </tbody>

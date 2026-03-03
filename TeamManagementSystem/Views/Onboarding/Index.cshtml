@@ -1,0 +1,110 @@
+@{
+    ViewData["Title"] = "Welcome — Setup Wizard";
+}
+
+<div class="modal fade show d-block onboarding-modal" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <h5 class="modal-title fw-semibold">Getting started</h5>
+                    <p class="text-muted mb-0">Set up your workspace in a few quick steps.</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="onboarding-progress small text-muted mb-3">
+                    <span id="onboarding-step-label">Step 1 of 4</span>
+                </div>
+
+                <div id="onboarding-step-1" class="onboarding-step active">
+                    <h3 class="fw-bold mb-3">Create an Organization</h3>
+                    <div class="mb-3">
+                        <label class="form-label">Organization name<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="org-name" placeholder="e.g. Unity Solutions Ltd." />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Industry (optional)</label>
+                        <input type="text" class="form-control" id="org-industry" placeholder="e.g. Software Development" />
+                    </div>
+                </div>
+
+                <div id="onboarding-step-2" class="onboarding-step d-none">
+                    <h3 class="fw-bold mb-3">Create a Project</h3>
+                    <div class="mb-3">
+                        <label class="form-label">Project Name<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="project-name" placeholder="e.g. Threat Simulation" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Project Description (optional)</label>
+                        <textarea class="form-control" id="project-description" rows="3" placeholder="Describe the project in a few sentences, e.g. 'This project is about creating a threat simulation tool that will help organizations test their security defenses.'"></textarea>
+                    </div>
+                </div>
+
+                <div id="onboarding-step-3" class="onboarding-step d-none">
+                    <h3 class="fw-bold mb-3">Choose a template</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <button type="button" class="btn w-100 border template-option" data-template="research">
+                                <div class="text-start">
+                                    <div class="fw-semibold">Research</div>
+                                    <div class="small text-muted">Backlog → In Research → Review → Done</div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn w-100 border template-option" data-template="development">
+                                <div class="text-start">
+                                    <div class="fw-semibold">Development</div>
+                                    <div class="small text-muted">Backlog → To Do → In Progress → QA → Done</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected-template" />
+                </div>
+
+                <div id="onboarding-step-4" class="onboarding-step d-none">
+                    <h3 class="fw-bold mb-3">Invite your team members</h3>
+                    <p class="text-muted small">You can invite team members now or skip this step and do it later.</p>
+                    <div id="invite-list">
+                        <div class="row g-2 invite-row mb-2">
+                            <div class="col-md-8">
+                                <input type="email" class="form-control invite-email" placeholder="team-member@example.com" />
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select invite-role">
+                                    <option value="">Select a role (optional)</option>
+                                    <option value="Member">Member</option>
+                                    <option value="Admin">Manager</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-link px-0 small" id="add-invite-row">+ Add another </button>
+                </div>
+
+                <input type="hidden" id="onboarding-organization-id" />
+                <input type="hidden" id="onboarding-team-id" />
+                <input type="hidden" id="onboarding-project-id" />
+            </div>
+            <div class="modal-footer border-0 pt-0 d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" id="onboarding-back" disabled>Previous</button>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-link text-muted" id="onboarding-skip" data-skip-step="4">Skip this step</button>
+                    <button type="button" class="btn btn-primary" id="onboarding-next">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-backdrop fade show"></div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/onboarding.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/onboarding.js" asp-append-version="true"></script>
+}
+

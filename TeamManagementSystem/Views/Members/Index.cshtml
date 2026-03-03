@@ -1,0 +1,95 @@
+@model TeamManagementSystem.Web.ViewModels.Members.OrganizationMembersVm
+@using TeamManagementSystem.Web.Models
+@{
+    ViewData["Title"] = "Members — " + Model.OrganizationName;
+    var canManage = (bool)(ViewData["CanManage"] ?? false);
+    var lastInviteLink = TempData["LastInviteLink"] as string;
+}
+
+<h2>Members — @Model.OrganizationName</h2>
+<p><a asp-controller="Organizations" asp-action="Details" asp-route-id="@Model.OrganizationId">Back to organization</a></p>
+
+<h3>Current members</h3>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model.Members)
+        {
+            <tr>
+                <td>@m.DisplayName</td>
+                <td>@m.Email</td>
+                <td>@m.Role</td>
+                <td>@m.JoinedAtUtc.ToLocalTime().ToString("g")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (canManage)
+{
+    <h3>Invite new members</h3>
+    <p class="text-muted small">Create an invitation link you can share. Anyone with the link can join this organization with the selected role.</p>
+
+    @if (!string.IsNullOrEmpty(lastInviteLink))
+    {
+        <div class="alert alert-success">
+            <div><strong>Invite link created.</strong></div>
+            <div class="small"><code>@lastInviteLink</code></div>
+        </div>
+    }
+
+    <form asp-action="CreateInvite" method="post" class="row g-2 mb-3">
+        <input type="hidden" name="OrganizationId" value="@Model.OrganizationId" />
+        <div class="col-md-4">
+            <select name="Role" class="form-select" required>
+                <option value="">Select role</option>
+                <option value="@WorkspaceRole.Lead">Manager</option>
+                <option value="@WorkspaceRole.Member">Member</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input name="Email" class="form-control" placeholder="Invitee email (optional)" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Create invite link</button>
+        </div>
+    </form>
+
+    <h4>Pending invitations</h4>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Email (optional)</th>
+                <th>Role</th>
+                <th>Created</th>
+                <th>Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.PendingInvites.Any())
+            {
+                <tr><td colspan="4" class="text-muted">No pending invitations.</td></tr>
+            }
+            else
+            {
+                @foreach (var i in Model.PendingInvites)
+                {
+                    <tr>
+                        <td>@(string.IsNullOrEmpty(i.Email) ? "(anyone with link)" : i.Email)</td>
+                        <td>@i.Role</td>
+                        <td>@i.CreatedAtUtc.ToLocalTime().ToString("g")</td>
+                        <td>@(i.ExpiresAtUtc?.ToLocalTime().ToString("g") ?? "Never")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+

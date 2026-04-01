@@ -16,7 +16,15 @@
             <tr>
                 <td>@item.Organization.Name</td>
                 <td>@item.Role.ToString()</td>
-                <td><a asp-action="Details" asp-route-id="@item.Organization.Id">View</a> | <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@item.Organization.Id">View Members</a></td>
+                <td>
+                    
+                    <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@item.Organization.Id">Members</a> |
+                
+                    @if (item.FirstTeamId is { } teamId)
+                    {
+                        <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@teamId">Projects</a>
+                    }
+                </td>
             </tr>
         }
     </tbody>

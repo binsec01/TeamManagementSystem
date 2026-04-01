@@ -20,9 +20,8 @@
                 <td>@(p.Tasks?.Count ?? 0)</td>
                 <td>@(p.DueDateUtc?.ToLocalTime().ToString("d"))</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@p.Id">View</a> |
-                    <a asp-controller="Tasks" asp-action="List" asp-route-projectId="@p.Id">List</a> |
-                    <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@p.Id">Board</a>
+                    <a asp-action="Details" asp-route-id="@p.Id">Overview</a> |
+                    <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@p.Id">Dashboard</a>
                 </td>
             </tr>
         }

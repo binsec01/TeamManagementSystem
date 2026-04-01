@@ -31,7 +31,22 @@ public class OrganizationsController : Controller
             .Include(w => w.Organization)
             .Where(w => w.UserId == user.Id)
             .ToListAsync(cancellationToken);
-        var orgs = memberships.Select(m => new OrganizationListVm { Organization = m.Organization, Role = m.Role }).ToList();
+
+        var orgIds = memberships.Select(m => m.OrganizationId).Distinct().ToList();
+        var teamRows = await _db.Teams
+            .Where(t => orgIds.Contains(t.OrganizationId))
+            .Select(t => new { t.OrganizationId, t.Id })
+            .ToListAsync(cancellationToken);
+        var firstTeamByOrg = teamRows
+            .GroupBy(t => t.OrganizationId)
+            .ToDictionary(g => g.Key, g => g.Min(x => x.Id));
+
+        var orgs = memberships.Select(m => new OrganizationListVm
+        {
+            Organization = m.Organization,
+            Role = m.Role,
+            FirstTeamId = firstTeamByOrg.TryGetValue(m.OrganizationId, out var teamId) ? teamId : null
+        }).ToList();
         return View(orgs);
     }
 

@@ -46,6 +46,7 @@ public class AccountController : Controller
     {
         returnUrl ??= Url.Content("~/");
         ViewData["ReturnUrl"] = returnUrl;
+        
         if (!ModelState.IsValid) return View(model);
 
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);

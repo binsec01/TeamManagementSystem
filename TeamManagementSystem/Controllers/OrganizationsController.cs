@@ -85,28 +85,31 @@ public class OrganizationsController : Controller
         if (!canAccess.HasValue) return Forbid();
 
         var org = await _db.Organizations
-            .Include(o => o.Teams)
-            .ThenInclude(t => t.Projects)
-            .Include(o => o.Teams)
-            .ThenInclude(t => t.Members)
+            .AsNoTracking()
             .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
         if (org == null) return NotFound();
 
-        var teams = org.Teams.Select(t => new TeamSummaryVm
-        {
-            Id = t.Id,
-            Name = t.Name,
-            ProjectCount = t.Projects.Count,
-            MemberCount = t.Members.Count
-        }).ToList();
+        var orgMemberCount = await _db.WorkspaceMemberships
+            .CountAsync(w => w.OrganizationId == id, cancellationToken);
+
+        var projectCount = await _db.Projects
+            .CountAsync(p => p.Team.OrganizationId == id, cancellationToken);
+
+        var firstTeamId = await _db.Teams
+            .Where(t => t.OrganizationId == id)
+            .OrderBy(t => t.Id)
+            .Select(t => (int?)t.Id)
+            .FirstOrDefaultAsync(cancellationToken);
 
         var vm = new OrganizationDetailsVm
         {
             Id = org.Id,
             Name = org.Name,
             CreatedAtUtc = org.CreatedAtUtc,
-            Teams = teams,
-            CurrentUserRole = canAccess.Value.ToString()
+            CurrentUserRole = canAccess.Value.ToString(),
+            MemberCount = orgMemberCount,
+            ProjectCount = projectCount,
+            FirstTeamId = firstTeamId
         };
         return View(vm);
     }

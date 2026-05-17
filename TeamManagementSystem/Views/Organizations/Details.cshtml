@@ -3,29 +3,72 @@
     ViewData["Title"] = Model.Name;
 }
 
-<h2>@Model.Name</h2>
-<p>Your role: <strong>@Model.CurrentUserRole</strong></p>
-<p>
-    <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-primary">View members</a>
-    <a asp-controller="Reports" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-outline-secondary">Reports</a>
-</p>
+<div class="tms-page">
+    <a asp-action="Index" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to Organizations
+    </a>
 
-<h3>Teams</h3>
-<table class="table">
-    <thead><tr><th>Name</th><th>Projects</th><th>Members</th><th></th></tr></thead>
-    <tbody>
-        @foreach (var t in Model.Teams)
-        {
-            <tr>
-                <td>@t.Name</td>
-                <td>@t.ProjectCount</td>
-                <td>@t.MemberCount</td>
-                <td>
-                    <a asp-controller="Teams" asp-action="Details" asp-route-id="@t.Id">View</a> |
-                    <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@t.Id">Projects</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a asp-action="Index">Back to organizations</a>
+    <header class="tms-hero">
+        <h1 class="tms-title">@Model.Name</h1>
+        <div class="tms-meta">
+            <span class="tms-badge">Your Role: @Model.CurrentUserRole</span>
+        </div>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <article class="tms-action-card">
+                <div class="tms-action-card__header">
+                    <div class="tms-action-card__icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="tms-action-card__heading">
+                        <h2 class="tms-action-card__title">Active Members (@Model.MemberCount)</h2>
+                        <div class="tms-action-card__count">@Model.MemberCount</div>
+                    </div>
+                </div>
+                <p class="tms-action-card__desc">Manage your team, roles, and access.</p>
+                <div class="tms-action-card__actions">
+                    <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-primary">View Members</a>
+                    <a asp-controller="Reports" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-outline-secondary">Reports</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6">
+            <article class="tms-action-card tms-action-card--accent">
+                <div class="tms-action-card__header">
+                    <div class="tms-action-card__icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="tms-action-card__heading">
+                        <h2 class="tms-action-card__title">Active Projects (@Model.ProjectCount)</h2>
+                        <div class="tms-action-card__count">@Model.ProjectCount</div>
+                    </div>
+                </div>
+                <p class="tms-action-card__desc">Track progress and project boards.</p>
+                <div class="tms-action-card__actions">
+                    <a asp-controller="Teams" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-primary">View All</a>
+                    @if (Model.FirstTeamId is { } teamId)
+                    {
+                        <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@teamId" class="btn btn-outline-secondary">Projects</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Teams" asp-action="Index" asp-route-organizationId="@Model.Id" class="btn btn-outline-secondary">Projects</a>
+                    }
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

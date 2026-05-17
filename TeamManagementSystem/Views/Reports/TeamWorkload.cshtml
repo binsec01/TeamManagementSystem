@@ -3,22 +3,36 @@
     ViewData["Title"] = "Team workload";
 }
 
-<h2>Team workload — @Model.OrganizationName</h2>
-<table class="table">
-    <thead><tr><th>Member</th><th>Email</th><th>Total</th><th>Open</th><th>In progress</th><th>Completed</th><th>Overdue</th></tr></thead>
-    <tbody>
-        @foreach (var m in Model.Members)
-        {
-            <tr>
-                <td>@m.FullName</td>
-                <td>@m.Email</td>
-                <td>@m.TotalTasks</td>
-                <td>@m.OpenTasks</td>
-                <td>@m.InProgressTasks</td>
-                <td>@m.CompletedTasks</td>
-                <td>@m.OverdueTasks</td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to reports</a>
+<div class="tms-page">
+    <a asp-action="Index" asp-route-organizationId="@Model.OrganizationId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to reports
+    </a>
+
+    <header class="tms-hero">
+        <h1 class="tms-title">Team workload</h1>
+        <p class="tms-subtitle">@Model.OrganizationName</p>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-table-wrap">
+        <table class="table tms-table">
+            <thead><tr><th>Member</th><th>Email</th><th>Total</th><th>Open</th><th>In progress</th><th>Completed</th><th>Overdue</th></tr></thead>
+            <tbody>
+                @foreach (var m in Model.Members)
+                {
+                    <tr>
+                        <td>@m.FullName</td>
+                        <td>@m.Email</td>
+                        <td>@m.TotalTasks</td>
+                        <td>@m.OpenTasks</td>
+                        <td>@m.InProgressTasks</td>
+                        <td>@m.CompletedTasks</td>
+                        <td>@m.OverdueTasks</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

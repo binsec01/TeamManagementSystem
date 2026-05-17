@@ -1,22 +1,173 @@
+/* TeamManagementSystem — global shell & Bootstrap theme overrides */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bs-primary: #0066ff;
+    --bs-primary-rgb: 0, 102, 255;
+    --bs-body-font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --bs-body-bg: #f8fafc;
+    --bs-body-color: #334155;
+    --bs-border-color: #e2e8f0;
+    --bs-link-color: #0066ff;
+    --bs-link-hover-color: #0052cc;
+}
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #f8fafc;
+    color: #334155;
+    font-family: var(--bs-body-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus — accessible ring */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.2);
+}
+
+/* Primary buttons — electric blue */
+.btn-primary {
+    --bs-btn-bg: #0066ff;
+    --bs-btn-border-color: #0066ff;
+    --bs-btn-hover-bg: #0052cc;
+    --bs-btn-hover-border-color: #0052cc;
+    --bs-btn-active-bg: #0047b3;
+    --bs-btn-active-border-color: #0047b3;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #0066ff;
+    --bs-btn-border-color: #0066ff;
+    --bs-btn-hover-bg: #0066ff;
+    --bs-btn-hover-border-color: #0066ff;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.btn-outline-secondary {
+    --bs-btn-color: #334155;
+    --bs-btn-border-color: #cbd5e1;
+    --bs-btn-hover-bg: #f1f5f9;
+    --bs-btn-hover-border-color: #94a3b8;
+    --bs-btn-hover-color: #0f172a;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.btn-secondary {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Navbar */
+.tms-navbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+}
+
+.tms-navbar .navbar-brand {
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    color: #0f172a !important;
+}
+
+.tms-navbar .nav-link {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    color: #64748b !important;
+    border-radius: 8px;
+    padding: 0.45rem 0.8rem !important;
+    margin: 0 0.1rem;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.tms-navbar .nav-link:hover,
+.tms-navbar .nav-link:focus-visible {
+    color: #0066ff !important;
+    background: #e6f0ff;
+}
+
+.tms-navbar .btn-link.nav-link {
+    font-weight: 500;
+}
+
+.tms-navbar .navbar-toggler {
+    border-color: #e2e8f0;
+    border-radius: 8px;
+    padding: 0.35rem 0.55rem;
+}
+
+.tms-navbar .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.2);
+}
+
+.tms-main {
+    padding-top: 0.35rem;
+}
+
+/* Footer */
+.footer {
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0 !important;
+    font-size: 0.875rem;
+}
+
+.footer a {
+    color: #0066ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Tables — base polish when not in tms-table-wrap */
+.table {
+    --bs-table-bg: transparent;
+}
+
+/* List group notifications fallback */
+.list-group-item-primary {
+    background-color: #e6f0ff;
+    border-color: #bfdbfe;
+    color: #0f172a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-primary:hover {
+        transform: none;
+        box-shadow: none;
+    }
 }

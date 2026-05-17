@@ -5,33 +5,46 @@
     var canManage = (bool)ViewData["CanManage"]!;
 }
 
-<h2>@Model.ProjectName — Board</h2>
-<p>
-    <a asp-action="List" asp-route-projectId="@projectId">List view</a>
-    @if (canManage) { <text> | </text> <a asp-action="Create" asp-route-projectId="@projectId" class="btn btn-sm btn-primary">Add task</a> }
-</p>
+<div class="tms-page">
+    <a asp-controller="Projects" asp-action="Details" asp-route-id="@projectId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to project
+    </a>
 
-<div class="row g-2">
-    @foreach (var col in Model.Columns)
-    {
-        <div class="col-md">
-            <div class="card">
-                <div class="card-header py-2">@col.Key</div>
-                <div class="card-body p-2">
-                    @foreach (var task in col.Value)
-                    {
-                        <div class="border rounded p-2 mb-2 small">
-                            <a asp-action="Details" asp-route-id="@task.Id">@task.Title</a>
-                            <br />
-                            <span class="badge bg-secondary">@task.Priority</span>
-                            @if (task.DueDateUtc.HasValue) { <span class="text-muted">@task.DueDateUtc.Value.ToLocalTime().ToString("d")</span> }
-                            @if (!string.IsNullOrEmpty(task.AssigneeName)) { <br /><span class="text-muted">@task.AssigneeName</span> }
-                            @if (task.TagNames.Count > 0) { <br />@string.Join(", ", task.TagNames) }
-                        </div>
-                    }
+    <header class="tms-hero">
+        <h1 class="tms-title">@Model.ProjectName — Board</h1>
+        <div class="tms-toolbar">
+            <a asp-action="List" asp-route-projectId="@projectId" class="btn btn-outline-primary btn-sm">List view</a>
+            @if (canManage)
+            {
+                <a asp-action="Create" asp-route-projectId="@projectId" class="btn btn-primary btn-sm">Add task</a>
+            }
+        </div>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-board row g-2">
+        @foreach (var col in Model.Columns)
+        {
+            <div class="col-md">
+                <div class="card">
+                    <div class="card-header py-2">@col.Key</div>
+                    <div class="card-body p-2">
+                        @foreach (var task in col.Value)
+                        {
+                            <div class="border rounded p-2 mb-2 small">
+                                <a asp-action="Details" asp-route-id="@task.Id">@task.Title</a>
+                                <br />
+                                <span class="tms-badge">@task.Priority</span>
+                                @if (task.DueDateUtc.HasValue) { <span class="tms-muted">@task.DueDateUtc.Value.ToLocalTime().ToString("d")</span> }
+                                @if (!string.IsNullOrEmpty(task.AssigneeName)) { <br /><span class="tms-muted">@task.AssigneeName</span> }
+                                @if (task.TagNames.Count > 0) { <br />@string.Join(", ", task.TagNames) }
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
-<a asp-controller="Projects" asp-action="Details" asp-route-id="@projectId">Back to project</a>

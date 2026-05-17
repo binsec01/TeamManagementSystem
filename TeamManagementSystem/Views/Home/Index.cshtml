@@ -2,8 +2,13 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Team Management System</h1>
-    <p class="lead">Manage teams, projects, and tasks in one place.</p>
-    <p><a asp-controller="Organizations" asp-action="Index" class="btn btn-primary">My organizations</a> <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">Log in</a></p>
+<div class="tms-page">
+    <div class="tms-landing">
+        <h1 class="tms-landing__title">Team Management System</h1>
+        <p class="tms-landing__lead">Manage teams, projects, and tasks in one place.</p>
+        <div>
+            <a asp-controller="Organizations" asp-action="Index" class="btn btn-primary btn-lg">My organizations</a>
+            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary btn-lg">Log in</a>
+        </div>
+    </div>
 </div>

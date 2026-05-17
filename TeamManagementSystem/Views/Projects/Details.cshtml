@@ -3,15 +3,35 @@
     ViewData["Title"] = Model.Name;
 }
 
-<h2>@Model.Name</h2>
-<p>Team: <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId">@Model.TeamName</a></p>
-@if (!string.IsNullOrEmpty(Model.Description)) { <p>@Model.Description</p> }
-<p>
-    <strong>Progress:</strong> @Model.OpenTaskCount open, @Model.CompletedTaskCount completed, @Model.OverdueTaskCount overdue
-</p>
-<p>
-    <a asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id">List view</a> |
-    <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@Model.Id">Board view</a> |
-    <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-sm btn-primary">Add task</a>
-</p>
-<a asp-action="Index" asp-route-teamId="@Model.TeamId">Back to projects</a>
+<div class="tms-page">
+    <a asp-action="Index" asp-route-teamId="@Model.TeamId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to projects
+    </a>
+
+    <header class="tms-hero">
+        <h1 class="tms-title">@Model.Name</h1>
+        <div class="tms-meta">
+            <span class="tms-muted">Team:</span>
+            <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.TeamId" class="tms-badge tms-badge--link">@Model.TeamName</a>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <p class="tms-subtitle mb-0">@Model.Description</p>
+        }
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-stat-row">
+        <div class="tms-stat">Open<strong>@Model.OpenTaskCount</strong></div>
+        <div class="tms-stat">Completed<strong>@Model.CompletedTaskCount</strong></div>
+        <div class="tms-stat">Overdue<strong>@Model.OverdueTaskCount</strong></div>
+    </div>
+
+    <div class="tms-toolbar">
+        <a asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id" class="btn btn-outline-primary">List view</a>
+        <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@Model.Id" class="btn btn-outline-primary">Board view</a>
+        <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-primary">Add task</a>
+    </div>
+</div>

@@ -3,29 +3,41 @@
     ViewData["Title"] = "Organizations";
 }
 
-<h2>My Organizations</h2>
-<p><a asp-controller="Onboarding" asp-action="Index" class="btn btn-primary">Set up your workspace</a></p>
+<div class="tms-page">
+    <header class="tms-hero">
+        <h1 class="tms-title">My Organizations</h1>
+        <div class="tms-toolbar">
+            <a asp-controller="Onboarding" asp-action="Index" class="btn btn-primary">Set up your workspace</a>
+        </div>
+    </header>
 
-<table class="table">
-    <thead>
-        <tr><th>Name</th><th>Roles</th><th></th></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Organization.Name</td>
-                <td>@item.Role.ToString()</td>
-                <td>
-                    
-                    <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@item.Organization.Id">Members</a> |
-                
-                    @if (item.FirstTeamId is { } teamId)
-                    {
-                        <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@teamId">Projects</a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <hr class="tms-divider" />
+
+    @if (!Model.Any())
+    {
+        <div class="tms-empty">
+            <p class="mb-0">You are not a member of any organization yet.</p>
+            <a asp-controller="Onboarding" asp-action="Index" class="btn btn-outline-primary btn-sm">Set up your workspace</a>
+        </div>
+    }
+    else
+    {
+        <div class="tms-grid">
+            @foreach (var item in Model)
+            {
+                <div class="tms-grid-card">
+                    <h2 class="tms-grid-card__name">@item.Organization.Name</h2>
+                    <span class="tms-badge">@item.Role</span>
+                    <div class="tms-grid-card__actions">
+                        <a asp-action="Details" asp-route-id="@item.Organization.Id" class="btn btn-primary btn-sm">Open</a>
+                        <a asp-controller="Members" asp-action="Index" asp-route-organizationId="@item.Organization.Id" class="btn btn-outline-secondary btn-sm">Members</a>
+                        @if (item.FirstTeamId is { } teamId)
+                        {
+                            <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@teamId" class="btn btn-outline-secondary btn-sm">Projects</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

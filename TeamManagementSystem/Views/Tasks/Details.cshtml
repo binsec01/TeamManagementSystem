@@ -5,43 +5,76 @@
     var teamMembers = ViewData["TeamMembers"] as IEnumerable<TeamManagementSystem.Web.Models.Identity.ApplicationUser> ?? Enumerable.Empty<TeamManagementSystem.Web.Models.Identity.ApplicationUser>();
 }
 
-<h2>@Model.Title</h2>
-<p>Project: <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId">@Model.Project?.Name</a></p>
-<p><strong>Status:</strong> @Model.Status | <strong>Priority:</strong> @Model.Priority | <strong>Due:</strong> @(Model.DueDateUtc?.ToLocalTime().ToString("d"))</p>
-<p><strong>Assignee:</strong> @(Model.Assignee?.FullName ?? Model.Assignee?.Email ?? "—")</p>
-@if (!string.IsNullOrEmpty(Model.Description)) { <div class="mb-3">@Model.Description</div> }
-<p>Tags: @string.Join(", ", (Model.TaskTags ?? new List<TeamManagementSystem.Web.Models.TaskTag>()).Select(tt => tt.Tag?.Name).Where(n => n != null)!)</p>
+<div class="tms-page">
+    <a asp-action="List" asp-route-projectId="@Model.ProjectId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to task list
+    </a>
 
-@if (canManage) { <p><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit task</a></p> }
+    <header class="tms-hero">
+        <h1 class="tms-title">@Model.Title</h1>
+        <div class="tms-meta">
+            <span class="tms-muted">Project:</span>
+            <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId" class="tms-badge text-decoration-none">@Model.Project?.Name</a>
+            <span class="tms-badge">@Model.Status</span>
+            <span class="tms-badge">@Model.Priority</span>
+            @if (Model.DueDateUtc.HasValue)
+            {
+                <span class="tms-muted">Due @Model.DueDateUtc.Value.ToLocalTime().ToString("d")</span>
+            }
+        </div>
+        <p class="tms-subtitle mb-0"><strong>Assignee:</strong> @(Model.Assignee?.FullName ?? Model.Assignee?.Email ?? "—")</p>
+        @if (canManage)
+        {
+            <div class="tms-toolbar">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit task</a>
+            </div>
+        }
+    </header>
 
-<h4>Comments</h4>
-@foreach (var c in Model.Comments ?? Array.Empty<TeamManagementSystem.Web.Models.TaskComment>())
-{
-    <div class="border rounded p-2 mb-2">
-        <strong>@(c.Author?.FullName ?? c.Author?.Email)</strong> — @c.CreatedAtUtc.ToLocalTime().ToString("g")<br />
-        @c.Body
-    </div>
-}
-<form asp-controller="Comments" asp-action="Create" method="post" class="mb-3">
-    <input type="hidden" name="taskId" value="@Model.Id" />
-    <div class="mb-2">
-        <label class="form-label">Add comment</label>
-        <textarea name="body" class="form-control" rows="2" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-sm btn-primary">Post</button>
-</form>
+    <hr class="tms-divider" />
 
-<h4>Attachments</h4>
-<ul>
-    @foreach (var a in Model.Attachments ?? Array.Empty<TeamManagementSystem.Web.Models.TaskAttachment>())
+    @if (!string.IsNullOrEmpty(Model.Description))
     {
-        <li><a asp-controller="Attachments" asp-action="Download" asp-route-id="@a.Id">@a.OriginalFileName</a></li>
+        <div class="tms-card mb-3">
+            <h2 class="tms-card__title">Description</h2>
+            <p class="mb-0">@Model.Description</p>
+        </div>
     }
-</ul>
-<form asp-controller="Attachments" asp-action="Upload" method="post" enctype="multipart/form-data" class="mb-3">
-    <input type="hidden" name="taskId" value="@Model.Id" />
-    <input type="file" name="file" class="form-control form-control-sm d-inline-block w-auto" />
-    <button type="submit" class="btn btn-sm btn-secondary">Upload</button>
-</form>
 
-<a asp-action="List" asp-route-projectId="@Model.ProjectId">Back to task list</a>
+    <p class="mb-3">Tags: @string.Join(", ", (Model.TaskTags ?? new List<TeamManagementSystem.Web.Models.TaskTag>()).Select(tt => tt.Tag?.Name).Where(n => n != null)!)</p>
+
+    <div class="tms-card mb-3">
+        <h2 class="tms-card__title">Comments</h2>
+        @foreach (var c in Model.Comments ?? Array.Empty<TeamManagementSystem.Web.Models.TaskComment>())
+        {
+            <div class="tms-note mb-2">
+                <div class="tms-note__meta"><strong>@(c.Author?.FullName ?? c.Author?.Email)</strong> — @c.CreatedAtUtc.ToLocalTime().ToString("g")</div>
+                @c.Body
+            </div>
+        }
+        <form asp-controller="Comments" asp-action="Create" method="post" class="mt-3">
+            <input type="hidden" name="taskId" value="@Model.Id" />
+            <div class="mb-2">
+                <label class="form-label">Add comment</label>
+                <textarea name="body" class="form-control" rows="2" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary">Post</button>
+        </form>
+    </div>
+
+    <div class="tms-card">
+        <h2 class="tms-card__title">Attachments</h2>
+        <ul class="tms-link-list mb-3">
+            @foreach (var a in Model.Attachments ?? Array.Empty<TeamManagementSystem.Web.Models.TaskAttachment>())
+            {
+                <li><a asp-controller="Attachments" asp-action="Download" asp-route-id="@a.Id">@a.OriginalFileName</a></li>
+            }
+        </ul>
+        <form asp-controller="Attachments" asp-action="Upload" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="taskId" value="@Model.Id" />
+            <input type="file" name="file" class="form-control form-control-sm d-inline-block w-auto" />
+            <button type="submit" class="btn btn-sm btn-secondary">Upload</button>
+        </form>
+    </div>
+</div>

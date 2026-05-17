@@ -1,24 +1,44 @@
+/* Onboarding wizard — aligned with VibeCoders brand */
 .onboarding-modal {
     z-index: 1055;
 }
 
 .onboarding-modal .modal-content {
-    border-radius: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.onboarding-modal .modal-title {
+    font-weight: 700;
+    color: #0f172a;
 }
 
 .onboarding-step.active {
-    animation: fadeIn 0.15s ease-in-out;
+    animation: fadeIn 0.2s ease-in-out;
 }
 
 .template-option {
-    border-radius: 0.75rem;
+    border-radius: 12px;
     padding: 0.75rem 1rem;
     background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .template-option.template-selected {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+    border-color: #0066ff;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+}
+
+.onboarding-modal .btn-primary {
+    background-color: #0066ff;
+    border-color: #0066ff;
+}
+
+.onboarding-modal .btn-primary:hover {
+    background-color: #0052cc;
+    border-color: #0052cc;
 }
 
 @keyframes fadeIn {
@@ -32,3 +52,8 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .onboarding-step.active {
+        animation: none;
+    }
+}

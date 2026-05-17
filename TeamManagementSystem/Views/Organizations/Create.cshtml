@@ -3,16 +3,32 @@
     ViewData["Title"] = "Create organization";
 }
 
-<h2>Create organization</h2>
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-floating mb-2">
-        <input asp-for="Name" class="form-control" />
-        <label asp-for="Name"></label>
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="tms-page">
+    <a asp-action="Index" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to Organizations
+    </a>
+
+    <header class="tms-hero">
+        <h1 class="tms-title">Create organization</h1>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-form-card">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name"></label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="tms-form-actions">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

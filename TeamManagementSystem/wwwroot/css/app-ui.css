@@ -1,0 +1,713 @@
+/* ==========================================================================
+   TeamManagementSystem — VibeCoders Design System
+   Clean Corporate Tech · Electric blue accent · Accessible SaaS UI
+   ========================================================================== */
+
+:root {
+    /* Canvas */
+    --tms-white: #ffffff;
+    --tms-canvas: #f8fafc;
+
+    /* Ink */
+    --tms-ink-900: #0f172a;
+    --tms-ink-700: #334155;
+    --tms-ink-500: #64748b;
+    --tms-ink-400: #94a3b8;
+
+    /* Structure */
+    --tms-border: #e2e8f0;
+    --tms-border-strong: #cbd5e1;
+    --tms-surface: #ffffff;
+
+    /* Brand — electric blue */
+    --tms-brand: #0066ff;
+    --tms-brand-hover: #0052cc;
+    --tms-brand-soft: #e6f0ff;
+    --tms-brand-muted: #bfdbfe;
+
+    /* Accent — projects / success */
+    --tms-accent-green: #059669;
+    --tms-accent-green-soft: #ecfdf5;
+
+    /* Role / status badge — periwinkle lavender */
+    --tms-badge-bg: #ede9fe;
+    --tms-badge-text: #5b21b6;
+
+    /* Elevation */
+    --tms-radius: 12px;
+    --tms-radius-lg: 16px;
+    --tms-radius-sm: 8px;
+    --tms-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --tms-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+    --tms-shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.08);
+
+    /* Motion */
+    --tms-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --tms-duration: 0.2s;
+
+    /* Type scale */
+    --tms-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Page shell                                                                 */
+/* -------------------------------------------------------------------------- */
+.tms-page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0.25rem 0 2.5rem;
+}
+
+.tms-page--narrow {
+    max-width: 440px;
+}
+
+.tms-page--wide {
+    max-width: 1200px;
+}
+
+/* Breadcrumb / back navigation */
+.tms-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--tms-ink-500);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color var(--tms-duration) var(--tms-ease);
+}
+
+.tms-back:hover,
+.tms-back:focus-visible {
+    color: var(--tms-brand);
+}
+
+.tms-back:focus-visible {
+    outline: 2px solid var(--tms-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.tms-back svg {
+    flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Typography & hero                                                            */
+/* -------------------------------------------------------------------------- */
+.tms-hero {
+    margin-bottom: 0.25rem;
+}
+
+.tms-title {
+    font-family: var(--tms-font);
+    font-size: clamp(1.875rem, 4vw, 2.375rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--tms-ink-900);
+    margin: 0 0 0.65rem;
+}
+
+.tms-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--tms-ink-500);
+    margin: -0.25rem 0 0.75rem;
+    line-height: 1.5;
+}
+
+.tms-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+}
+
+.tms-muted {
+    color: var(--tms-ink-400);
+    font-size: 0.875rem;
+}
+
+.tms-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background: var(--tms-badge-bg);
+    color: var(--tms-badge-text);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.tms-badge--link {
+    text-decoration: none;
+    transition: background var(--tms-duration) var(--tms-ease);
+}
+
+.tms-badge--link:hover {
+    background: #ddd6fe;
+    color: var(--tms-badge-text);
+}
+
+.tms-divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--tms-border) 0%, #f1f5f9 55%, transparent 100%);
+    margin: 1.5rem 0 1.75rem;
+}
+
+.tms-divider--sm {
+    margin: 1rem 0 1.25rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Toolbar                                                                    */
+/* -------------------------------------------------------------------------- */
+.tms-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Metric action cards (Organization Details pattern)                         */
+/* -------------------------------------------------------------------------- */
+.tms-action-card {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius-lg);
+    padding: 1.5rem 1.5rem 1.25rem;
+    height: 100%;
+    box-shadow: var(--tms-shadow-sm);
+    transition:
+        box-shadow var(--tms-duration) var(--tms-ease),
+        border-color var(--tms-duration) var(--tms-ease),
+        transform var(--tms-duration) var(--tms-ease);
+}
+
+.tms-action-card:hover {
+    border-color: var(--tms-border-strong);
+    box-shadow: var(--tms-shadow-lg);
+    transform: translateY(-2px);
+}
+
+.tms-action-card__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.65rem;
+}
+
+.tms-action-card__icon {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--tms-radius-sm);
+    background: var(--tms-brand-soft);
+    color: var(--tms-brand);
+}
+
+.tms-action-card--accent .tms-action-card__icon,
+.tms-action-card--projects .tms-action-card__icon {
+    background: var(--tms-accent-green-soft);
+    color: var(--tms-accent-green);
+}
+
+.tms-action-card__heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.tms-action-card__title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--tms-ink-900);
+    margin: 0 0 0.2rem;
+    line-height: 1.35;
+}
+
+.tms-action-card__count {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--tms-ink-900);
+    line-height: 1.1;
+}
+
+.tms-action-card__desc {
+    color: var(--tms-ink-500);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0 0 1.15rem;
+}
+
+.tms-action-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.tms-action-card__actions .btn {
+    flex: 1 1 auto;
+    min-width: 7rem;
+    font-weight: 600;
+    border-radius: var(--tms-radius-sm);
+    padding: 0.55rem 1rem;
+    transition:
+        background-color var(--tms-duration) var(--tms-ease),
+        border-color var(--tms-duration) var(--tms-ease),
+        transform var(--tms-duration) var(--tms-ease),
+        box-shadow var(--tms-duration) var(--tms-ease);
+}
+
+.tms-action-card__actions .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.35);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Content cards & panels                                                     */
+/* -------------------------------------------------------------------------- */
+.tms-card {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--tms-shadow-sm);
+    margin-bottom: 1.25rem;
+}
+
+.tms-card:last-child {
+    margin-bottom: 0;
+}
+
+.tms-card__title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--tms-ink-900);
+    margin: 0 0 1rem;
+}
+
+.tms-card__title--sm {
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Data tables                                                                */
+/* -------------------------------------------------------------------------- */
+.tms-table-wrap {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--tms-shadow-sm);
+}
+
+.tms-table {
+    margin-bottom: 0;
+}
+
+.tms-table thead th {
+    background: var(--tms-canvas);
+    color: var(--tms-ink-700);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--tms-border);
+    padding: 0.85rem 1rem;
+}
+
+.tms-table tbody td {
+    padding: 0.95rem 1rem;
+    vertical-align: middle;
+    color: var(--tms-ink-700);
+    border-bottom-color: #f1f5f9;
+    font-size: 0.9375rem;
+}
+
+.tms-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tms-table tbody tr {
+    transition: background var(--tms-duration) var(--tms-ease);
+}
+
+.tms-table tbody tr:hover {
+    background: #fafbfc;
+}
+
+.tms-table a {
+    font-weight: 600;
+    color: var(--tms-brand);
+    text-decoration: none;
+}
+
+.tms-table a:hover {
+    color: var(--tms-brand-hover);
+    text-decoration: underline;
+}
+
+.tms-table .tms-actions {
+    white-space: nowrap;
+}
+
+.tms-table .tms-actions a + a::before {
+    content: "·";
+    margin: 0 0.4rem;
+    color: var(--tms-ink-400);
+    font-weight: 400;
+    pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Grid cards (organizations list)                                            */
+/* -------------------------------------------------------------------------- */
+.tms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.tms-grid-card {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius-lg);
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    box-shadow: var(--tms-shadow-sm);
+    transition:
+        border-color var(--tms-duration) var(--tms-ease),
+        box-shadow var(--tms-duration) var(--tms-ease),
+        transform var(--tms-duration) var(--tms-ease);
+}
+
+.tms-grid-card:hover {
+    border-color: var(--tms-border-strong);
+    box-shadow: var(--tms-shadow-lg);
+    transform: translateY(-2px);
+}
+
+.tms-grid-card__name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--tms-ink-900);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.tms-grid-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Link list (reports menu)                                                   */
+/* -------------------------------------------------------------------------- */
+.tms-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tms-link-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius);
+    color: var(--tms-ink-900);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    box-shadow: var(--tms-shadow-sm);
+    transition:
+        border-color var(--tms-duration) var(--tms-ease),
+        box-shadow var(--tms-duration) var(--tms-ease),
+        transform var(--tms-duration) var(--tms-ease),
+        color var(--tms-duration) var(--tms-ease);
+}
+
+.tms-link-list a::after {
+    content: "→";
+    color: var(--tms-ink-400);
+    font-weight: 400;
+}
+
+.tms-link-list a:hover {
+    border-color: var(--tms-brand-muted);
+    box-shadow: var(--tms-shadow-md);
+    transform: translateX(3px);
+    color: var(--tms-brand);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Stats row                                                                  */
+/* -------------------------------------------------------------------------- */
+.tms-stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.tms-stat {
+    flex: 1 1 auto;
+    min-width: 6.5rem;
+    padding: 0.85rem 1rem;
+    background: var(--tms-canvas);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--tms-ink-500);
+}
+
+.tms-stat strong {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--tms-ink-900);
+    margin-top: 0.2rem;
+    letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Lists (notifications, members)                                               */
+/* -------------------------------------------------------------------------- */
+.tms-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tms-list-item {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius);
+    padding: 1rem 1.2rem;
+    transition: box-shadow var(--tms-duration) var(--tms-ease);
+}
+
+.tms-list-item:hover {
+    box-shadow: var(--tms-shadow-sm);
+}
+
+.tms-list-item--unread {
+    border-left: 3px solid var(--tms-brand);
+    background: linear-gradient(90deg, var(--tms-brand-soft) 0%, var(--tms-surface) 14%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Forms                                                                      */
+/* -------------------------------------------------------------------------- */
+.tms-form-card {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius-lg);
+    padding: 1.75rem;
+    box-shadow: var(--tms-shadow-sm);
+    max-width: 520px;
+}
+
+.tms-form-card .form-control,
+.tms-form-card .form-select {
+    border-radius: var(--tms-radius-sm);
+    border-color: var(--tms-border);
+}
+
+.tms-form-card .form-control:focus,
+.tms-form-card .form-select:focus {
+    border-color: var(--tms-brand);
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+}
+
+.tms-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Filter bar                                                                 */
+/* -------------------------------------------------------------------------- */
+.tms-filter-bar {
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--tms-shadow-sm);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Kanban board                                                               */
+/* -------------------------------------------------------------------------- */
+.tms-board .card {
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius);
+    box-shadow: var(--tms-shadow-sm);
+    height: 100%;
+}
+
+.tms-board .card-header {
+    background: var(--tms-canvas);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--tms-ink-700);
+    border-bottom: 1px solid var(--tms-border);
+}
+
+.tms-board .card-body .border {
+    border-color: var(--tms-border) !important;
+    border-radius: var(--tms-radius-sm) !important;
+    transition: box-shadow var(--tms-duration) var(--tms-ease);
+}
+
+.tms-board .card-body .border:hover {
+    box-shadow: var(--tms-shadow-sm);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Notes / comments                                                           */
+/* -------------------------------------------------------------------------- */
+.tms-note {
+    background: var(--tms-canvas);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.tms-note__meta {
+    font-size: 0.8rem;
+    color: var(--tms-ink-500);
+    margin-bottom: 0.35rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Empty state                                                                */
+/* -------------------------------------------------------------------------- */
+.tms-empty {
+    text-align: center;
+    padding: 2.75rem 1.5rem;
+    background: var(--tms-canvas);
+    border: 1px dashed var(--tms-border-strong);
+    border-radius: var(--tms-radius-lg);
+    color: var(--tms-ink-500);
+}
+
+.tms-empty .btn {
+    margin-top: 0.85rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Auth & landing                                                             */
+/* -------------------------------------------------------------------------- */
+.tms-auth-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0 3rem;
+}
+
+.tms-landing {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background: var(--tms-surface);
+    border: 1px solid var(--tms-border);
+    border-radius: var(--tms-radius-lg);
+    box-shadow: var(--tms-shadow-md);
+}
+
+.tms-landing__title {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--tms-ink-900);
+    margin-bottom: 0.75rem;
+}
+
+.tms-landing__lead {
+    font-size: 1.125rem;
+    color: var(--tms-ink-500);
+    margin-bottom: 1.75rem;
+}
+
+.tms-landing .btn {
+    margin: 0.25rem;
+    font-weight: 600;
+    border-radius: var(--tms-radius-sm);
+    padding: 0.6rem 1.35rem;
+}
+
+/* Alerts inside cards */
+.tms-card .alert {
+    border-radius: var(--tms-radius);
+}
+
+/* Legacy org-details aliases */
+.org-details { max-width: 1080px; margin: 0 auto; padding: 0.25rem 0 2.5rem; }
+.org-details__back { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--tms-ink-500); font-weight: 500; text-decoration: none; margin-bottom: 1.5rem; }
+.org-details__hero { margin-bottom: 0.25rem; }
+.org-details__title { font-size: clamp(1.875rem, 4vw, 2.375rem); font-weight: 800; letter-spacing: -0.03em; color: var(--tms-ink-900); margin: 0 0 0.65rem; }
+.org-details__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem 1rem; }
+.org-details__role { display: inline-flex; padding: 0.35rem 0.9rem; border-radius: 999px; background: var(--tms-badge-bg); color: var(--tms-badge-text); font-size: 0.8125rem; font-weight: 600; }
+.org-details__divider { border: 0; height: 1px; background: linear-gradient(90deg, var(--tms-border) 0%, #f1f5f9 55%, transparent 100%); margin: 1.5rem 0 1.75rem; }
+.org-action-card { background: var(--tms-surface); border: 1px solid var(--tms-border); border-radius: var(--tms-radius-lg); padding: 1.5rem 1.5rem 1.25rem; height: 100%; box-shadow: var(--tms-shadow-sm); transition: box-shadow var(--tms-duration) var(--tms-ease), border-color var(--tms-duration) var(--tms-ease), transform var(--tms-duration) var(--tms-ease); }
+.org-action-card:hover { border-color: var(--tms-border-strong); box-shadow: var(--tms-shadow-lg); transform: translateY(-2px); }
+.org-action-card__header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.65rem; }
+.org-action-card__icon { flex-shrink: 0; width: 2.75rem; height: 2.75rem; display: flex; align-items: center; justify-content: center; border-radius: var(--tms-radius-sm); background: var(--tms-brand-soft); color: var(--tms-brand); }
+.org-action-card--projects .org-action-card__icon { background: var(--tms-accent-green-soft); color: var(--tms-accent-green); }
+.org-action-card__heading { flex: 1; min-width: 0; }
+.org-action-card__title { font-size: 1.0625rem; font-weight: 600; color: var(--tms-ink-900); margin: 0 0 0.2rem; }
+.org-action-card__count { font-size: 2rem; font-weight: 700; color: var(--tms-ink-900); }
+.org-action-card__desc { color: var(--tms-ink-500); font-size: 0.9rem; margin: 0 0 1.15rem; }
+.org-action-card__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; }
+.org-action-card__actions .btn { flex: 1 1 auto; min-width: 7rem; font-weight: 600; border-radius: var(--tms-radius-sm); }
+
+@media (max-width: 767.98px) {
+    .tms-action-card__actions .btn,
+    .org-action-card__actions .btn {
+        flex: 1 1 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tms-action-card,
+    .tms-grid-card,
+    .tms-link-list a,
+    .tms-action-card__actions .btn-primary:hover {
+        transition: none;
+        transform: none;
+    }
+}

@@ -3,20 +3,34 @@
     ViewData["Title"] = "Activity report";
 }
 
-<h2>Activity report — @Model.OrganizationName</h2>
-<table class="table table-sm">
-    <thead><tr><th>When</th><th>User</th><th>Entity</th><th>Action</th><th>Details</th></tr></thead>
-    <tbody>
-        @foreach (var a in Model.Activities)
-        {
-            <tr>
-                <td>@a.CreatedAtUtc.ToLocalTime().ToString("g")</td>
-                <td>@(a.ActorName ?? a.ActorUserId)</td>
-                <td>@a.EntityType #@a.EntityId</td>
-                <td>@a.Action</td>
-                <td class="small text-muted">@a.DetailsJson</td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to reports</a>
+<div class="tms-page">
+    <a asp-action="Index" asp-route-organizationId="@Model.OrganizationId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to reports
+    </a>
+
+    <header class="tms-hero">
+        <h1 class="tms-title">Activity report</h1>
+        <p class="tms-subtitle">@Model.OrganizationName</p>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-table-wrap">
+        <table class="table table-sm tms-table">
+            <thead><tr><th>When</th><th>User</th><th>Entity</th><th>Action</th><th>Details</th></tr></thead>
+            <tbody>
+                @foreach (var a in Model.Activities)
+                {
+                    <tr>
+                        <td>@a.CreatedAtUtc.ToLocalTime().ToString("g")</td>
+                        <td>@(a.ActorName ?? a.ActorUserId)</td>
+                        <td>@a.EntityType #@a.EntityId</td>
+                        <td>@a.Action</td>
+                        <td class="small tms-muted">@a.DetailsJson</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

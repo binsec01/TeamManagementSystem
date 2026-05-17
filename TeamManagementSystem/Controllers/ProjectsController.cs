@@ -44,7 +44,7 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create(int teamId)
+    public IActionResult mCreate(int teamId)
     {
         ViewData["TeamId"] = teamId;
         return View(new ProjectCreateVm { TeamId = teamId });

@@ -3,21 +3,35 @@
     ViewData["Title"] = "Project progress";
 }
 
-<h2>Project progress — @Model.OrganizationName</h2>
-<table class="table">
-    <thead><tr><th>Project</th><th>Team</th><th>Open</th><th>Completed</th><th>Overdue</th><th>Total</th></tr></thead>
-    <tbody>
-        @foreach (var p in Model.Projects)
-        {
-            <tr>
-                <td>@p.ProjectName</td>
-                <td>@p.TeamName</td>
-                <td>@p.OpenTasks</td>
-                <td>@p.CompletedTasks</td>
-                <td>@p.OverdueTasks</td>
-                <td>@p.TotalTasks</td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a asp-action="Index" asp-route-organizationId="@Model.OrganizationId">Back to reports</a>
+<div class="tms-page">
+    <a asp-action="Index" asp-route-organizationId="@Model.OrganizationId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to reports
+    </a>
+
+    <header class="tms-hero">
+        <h1 class="tms-title">Project progress</h1>
+        <p class="tms-subtitle">@Model.OrganizationName</p>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-table-wrap">
+        <table class="table tms-table">
+            <thead><tr><th>Project</th><th>Team</th><th>Open</th><th>Completed</th><th>Overdue</th><th>Total</th></tr></thead>
+            <tbody>
+                @foreach (var p in Model.Projects)
+                {
+                    <tr>
+                        <td>@p.ProjectName</td>
+                        <td>@p.TeamName</td>
+                        <td>@p.OpenTasks</td>
+                        <td>@p.CompletedTasks</td>
+                        <td>@p.OverdueTasks</td>
+                        <td>@p.TotalTasks</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

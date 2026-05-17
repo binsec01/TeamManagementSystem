@@ -2,12 +2,18 @@
     ViewData["Title"] = "Invalid invitation";
 }
 
-<h2>Invitation not valid</h2>
-<p class="text-muted">
-    This organization invitation link is no longer valid. It may have expired, been revoked, or already been used.
-</p>
-<p>
-    You can contact an organization admin to request a new invitation, or go back to your
-    <a asp-controller="Organizations" asp-action="Index">organizations</a>.
-</p>
+<div class="tms-page">
+    <header class="tms-hero">
+        <h1 class="tms-title">Invitation not valid</h1>
+        <p class="tms-subtitle tms-muted">
+            This organization invitation link is no longer valid. It may have expired, been revoked, or already been used.
+        </p>
+    </header>
 
+    <hr class="tms-divider" />
+
+    <p>
+        You can contact an organization admin to request a new invitation, or go back to your
+        <a asp-controller="Organizations" asp-action="Index">organizations</a>.
+    </p>
+</div>

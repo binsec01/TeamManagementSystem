@@ -3,28 +3,58 @@
     ViewData["Title"] = "Projects";
     var teamId = (int)ViewData["TeamId"]!;
     var teamName = ViewData["TeamName"] as string ?? "";
-    var orgId = ViewData["OrganizationId"];
     var canManage = (bool)ViewData["CanManage"]!;
 }
 
-<h2>Projects — @teamName</h2>
-@if (canManage) { <p><a asp-action="Create" asp-route-teamId="@teamId" class="btn btn-primary">Add project</a></p> }
+<div class="tms-page">
+    <a asp-controller="Teams" asp-action="Details" asp-route-id="@teamId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to team
+    </a>
 
-<table class="table">
-    <thead><tr><th>Name</th><th>Tasks</th><th>Due</th><th></th></tr></thead>
-    <tbody>
-        @foreach (var p in Model)
+    <header class="tms-hero">
+        <h1 class="tms-title">Projects</h1>
+        <p class="tms-subtitle">@teamName</p>
+        @if (canManage)
         {
-            <tr>
-                <td>@p.Name</td>
-                <td>@(p.Tasks?.Count ?? 0)</td>
-                <td>@(p.DueDateUtc?.ToLocalTime().ToString("d"))</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@p.Id">Overview</a> |
-                    <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@p.Id">Dashboard</a>
-                </td>
-            </tr>
+            <div class="tms-toolbar">
+                <a asp-action="Create" asp-route-teamId="@teamId" class="btn btn-primary">Add project</a>
+            </div>
         }
-    </tbody>
-</table>
-<a asp-controller="Teams" asp-action="Details" asp-route-id="@teamId">Back to team</a>
+    </header>
+
+    <hr class="tms-divider" />
+
+    @if (!Model.Any())
+    {
+        <div class="tms-empty">
+            <p class="mb-0">No projects yet.</p>
+            @if (canManage)
+            {
+                <a asp-action="Create" asp-route-teamId="@teamId" class="btn btn-outline-primary btn-sm">Add project</a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="tms-table-wrap">
+            <table class="table tms-table">
+                <thead><tr><th>Name</th><th>Tasks</th><th>Due</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td><strong>@p.Name</strong></td>
+                            <td>@(p.Tasks?.Count ?? 0)</td>
+                            <td>@(p.DueDateUtc?.ToLocalTime().ToString("d"))</td>
+                            <td class="tms-actions">
+                                <a asp-action="Details" asp-route-id="@p.Id">Overview</a>
+                                <a asp-controller="Tasks" asp-action="Board" asp-route-projectId="@p.Id">Dashboard</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

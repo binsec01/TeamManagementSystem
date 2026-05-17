@@ -2,6 +2,16 @@
     ViewData["Title"] = "Access denied";
 }
 
-<h2 class="text-danger">Access denied.</h2>
-<p>You do not have permission to access this resource.</p>
-<a asp-controller="Home" asp-action="Index">Return to Home</a>
+<div class="tms-page">
+    <header class="tms-hero">
+        <h1 class="tms-title text-danger">Access denied.</h1>
+        <p class="tms-subtitle">You do not have permission to access this resource.</p>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <a asp-controller="Home" asp-action="Index" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Return to Home
+    </a>
+</div>

@@ -3,24 +3,41 @@
     ViewData["Title"] = "Notifications";
 }
 
-<h2>Notifications</h2>
-<form asp-action="MarkAllRead" method="post" class="mb-2">
-    <button type="submit" class="btn btn-sm btn-secondary">Mark all as read</button>
-</form>
-<ul class="list-group">
-    @foreach (var n in Model)
+<div class="tms-page">
+    <header class="tms-hero">
+        <h1 class="tms-title">Notifications</h1>
+        <div class="tms-toolbar">
+            <form asp-action="MarkAllRead" method="post" class="mb-0">
+                <button type="submit" class="btn btn-sm btn-secondary">Mark all as read</button>
+            </form>
+        </div>
+    </header>
+
+    <hr class="tms-divider" />
+
+    @if (!Model.Any())
     {
-        <li class="list-group-item @(n.IsRead ? "" : "list-group-item-primary")">
-            @if (!n.IsRead)
-            {
-                <form asp-action="MarkRead" method="post" class="d-inline">
-                    <input type="hidden" name="id" value="@n.Id" />
-                    <button type="submit" class="btn btn-sm btn-outline-secondary float-end">Mark read</button>
-                </form>
-            }
-            <a href="@(n.Url ?? "#")">@n.Message</a>
-            <br /><small class="text-muted">@n.CreatedAtUtc.ToLocalTime().ToString("g") — @n.Type</small>
-        </li>
+        <div class="tms-empty">
+            <p class="mb-0">No notifications.</p>
+        </div>
     }
-</ul>
-@if (!Model.Any()) { <p class="text-muted">No notifications.</p> }
+    else
+    {
+        <ul class="tms-list">
+            @foreach (var n in Model)
+            {
+                <li class="tms-list-item @(n.IsRead ? "" : "tms-list-item--unread")">
+                    @if (!n.IsRead)
+                    {
+                        <form asp-action="MarkRead" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@n.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-secondary float-end">Mark read</button>
+                        </form>
+                    }
+                    <a href="@(n.Url ?? "#")">@n.Message</a>
+                    <br /><small class="tms-muted">@n.CreatedAtUtc.ToLocalTime().ToString("g") — @n.Type</small>
+                </li>
+            }
+        </ul>
+    }
+</div>

@@ -6,24 +6,57 @@
     var canManage = (bool)ViewData["CanManage"]!;
 }
 
-<h2>Teams — @orgName</h2>
-@if (canManage) { <p><a asp-action="Create" asp-route-organizationId="@orgId" class="btn btn-primary">Add team</a></p> }
+<div class="tms-page">
+    <a asp-controller="Organizations" asp-action="Details" asp-route-id="@orgId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to organization
+    </a>
 
-<table class="table">
-    <thead><tr><th>Name</th><th>Projects</th><th>Members</th><th></th></tr></thead>
-    <tbody>
-        @foreach (var t in Model)
+    <header class="tms-hero">
+        <h1 class="tms-title">Teams</h1>
+        <p class="tms-subtitle">@orgName</p>
+        @if (canManage)
         {
-            <tr>
-                <td>@t.Name</td>
-                <td>@t.Projects?.Count ?? 0</td>
-                <td>@t.Members?.Count ?? 0</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@t.Id">View</a> |
-                    <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@t.Id">Projects</a>
-                </td>
-            </tr>
+            <div class="tms-toolbar">
+                <a asp-action="Create" asp-route-organizationId="@orgId" class="btn btn-primary">Add team</a>
+            </div>
         }
-    </tbody>
-</table>
-<a asp-controller="Organizations" asp-action="Details" asp-route-id="@orgId">Back to organization</a>
+    </header>
+
+    <hr class="tms-divider" />
+
+    @if (!Model.Any())
+    {
+        <div class="tms-empty">
+            <p class="mb-0">No teams yet.</p>
+            @if (canManage)
+            {
+                <a asp-action="Create" asp-route-organizationId="@orgId" class="btn btn-outline-primary btn-sm">Add team</a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="tms-table-wrap">
+            <table class="table tms-table">
+                <thead>
+                    <tr><th>Name</th><th>Projects</th><th>Members</th><th></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in Model)
+                    {
+                        <tr>
+                            <td><strong>@t.Name</strong></td>
+                            <td>@t.Projects?.Count ?? 0</td>
+                            <td>@t.Members?.Count ?? 0</td>
+                            <td class="tms-actions">
+                                <a asp-action="Details" asp-route-id="@t.Id">View</a>
+                                <a asp-controller="Projects" asp-action="Index" asp-route-teamId="@t.Id">Projects</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

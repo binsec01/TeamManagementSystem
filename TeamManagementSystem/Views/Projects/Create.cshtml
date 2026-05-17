@@ -4,31 +4,47 @@
     var teamId = (int)ViewData["TeamId"]!;
 }
 
-<h2>Create project</h2>
-<form asp-action="Create" method="post">
-    <input type="hidden" asp-for="TeamId" />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-floating mb-2">
-        <input asp-for="Name" class="form-control" />
-        <label asp-for="Name"></label>
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="tms-page">
+    <a asp-action="Index" asp-route-teamId="@teamId" class="tms-back">
+        <partial name="_TmsBackIcon" />
+        Back to projects
+    </a>
+
+    <header class="tms-hero">
+        <h1 class="tms-title">Create project</h1>
+    </header>
+
+    <hr class="tms-divider" />
+
+    <div class="tms-form-card">
+        <form asp-action="Create" method="post">
+            <input type="hidden" asp-for="TeamId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name"></label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-floating mb-3">
+                    <input asp-for="StartDateUtc" class="form-control" type="date" />
+                    <label asp-for="StartDateUtc"></label>
+                </div>
+                <div class="col-md-6 form-floating mb-3">
+                    <input asp-for="DueDateUtc" class="form-control" type="date" />
+                    <label asp-for="DueDateUtc"></label>
+                </div>
+            </div>
+            <div class="tms-form-actions">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" asp-route-teamId="@teamId" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
     </div>
-    <div class="mb-2">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-    </div>
-    <div class="row">
-        <div class="col-md-6 form-floating mb-2">
-            <input asp-for="StartDateUtc" class="form-control" type="date" />
-            <label asp-for="StartDateUtc"></label>
-        </div>
-        <div class="col-md-6 form-floating mb-2">
-            <input asp-for="DueDateUtc" class="form-control" type="date" />
-            <label asp-for="DueDateUtc"></label>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" asp-route-teamId="@teamId" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }
